@@ -6,13 +6,17 @@ class CompanySerializer(serializers.ModelSerializer):
         model = Company
         fields = "__all__"
 
-class ApplicationSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Application
-        fields = "__all__"
-        depth = 1
-
 class JobPostingSerializer(serializers.ModelSerializer):
+    company = CompanySerializer()
+
     class Meta:
         model = JobPosting
-        fields = "__all__"
+        fields = ['link', 'location', 'company']
+
+class ApplicationSerializer(serializers.ModelSerializer):
+    posting = JobPostingSerializer()
+    
+    class Meta:
+        model = Application
+        fields = ['status', 'job_title', 'remote', 'date', 'additional_steps', 'posting']
+        depth = 1

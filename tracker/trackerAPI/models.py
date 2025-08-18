@@ -31,6 +31,7 @@ class Application(models.Model):
     job_title = models.CharField(max_length=255)
     posting = models.ForeignKey(JobPosting, on_delete=models.CASCADE)
     remote = models.CharField(max_length=20, choices=REMOTE_CHOICES, default="ONSITE")
-    date = models.DateField(auto_now=True)
+    date = models.DateField()
+    additional_steps = models.BooleanField(default=False)
 
     
