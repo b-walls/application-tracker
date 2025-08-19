@@ -7,16 +7,34 @@ class CompanySerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 class JobPostingSerializer(serializers.ModelSerializer):
-    company = CompanySerializer()
+    company = serializers.PrimaryKeyRelatedField(
+        queryset=Company.objects.all(),
+        write_only=True
+    )
+
+    company_details = CompanySerializer(source="company", read_only=True)
 
     class Meta:
         model = JobPosting
-        fields = ['link', 'location', 'company']
+        fields = ['link', 'location', 'company', 'company_details']
 
 class ApplicationSerializer(serializers.ModelSerializer):
-    posting = JobPostingSerializer()
-    
+    posting = serializers.PrimaryKeyRelatedField(
+        queryset=JobPosting.objects.all(),
+        write_only=True
+    )
+
+    posting_details = JobPostingSerializer(source="posting", read_only=True)
+
     class Meta:
         model = Application
-        fields = ['status', 'job_title', 'remote', 'date', 'additional_steps', 'posting']
-        depth = 1
+        fields = [
+            'id',
+            'status',
+            'job_title',
+            'remote',
+            'date',
+            'additional_steps',
+            'posting',          
+            'posting_details'
+        ]

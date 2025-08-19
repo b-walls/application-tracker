@@ -1,12 +1,14 @@
-footer {
-  display: flex;
-  flex-direction: row;
-  text-align: center;
-  align-items: center;
-  justify-content: center;
-  gap: 20px;
+html, body {
+  height: 100%;
 }
 
-nav {
-  
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+footer {
+  margin-top: auto; 
+  bottom: 0;
+  position: fixed;
 }

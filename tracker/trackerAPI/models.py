@@ -5,10 +5,16 @@ class Company(models.Model):
     name = models.CharField(max_length=255)
     website = models.CharField(max_length=255)
 
+    def __str__(self):
+        return str(self.name)
+
 class JobPosting(models.Model):
     link = models.CharField(max_length=255)
     location = models.CharField(max_length=255)
     company = models.ForeignKey(Company, on_delete=models.PROTECT)
+
+    def __str__(self):
+        return str(self.company)
 
 class Application(models.Model):
 
@@ -33,5 +39,9 @@ class Application(models.Model):
     remote = models.CharField(max_length=20, choices=REMOTE_CHOICES, default="ONSITE")
     date = models.DateField()
     additional_steps = models.BooleanField(default=False)
+
+    def __str__(self):
+        return str(self.posting.company)
+
 
     
