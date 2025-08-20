@@ -1,9 +1,14 @@
 const table = document.getElementById("table");
 
+const badgeForStatus = s => {
+          const map = { APPLIED: "primary", INTERVIEW: "warning", OFFER: "success", ACCEPTED: "success", REJECTED: "danger" };
+          return map[s?.toUpperCase?.()] || "secondary";
+        };
+
+
 document.addEventListener("DOMContentLoaded", () => {
   axios.get("/api/applications")
     .then(response => {
-      console.log(response.data);
       const applications = response.data;
 
       table.innerHTML = "";
@@ -14,14 +19,13 @@ document.addEventListener("DOMContentLoaded", () => {
         const status = app.status;
         const jobTitle = app.job_title;
         const id = app.id;
-
         const row =  `
-          <tr onclick="window.open('/api/applications/${id}', '_blank')" style="cursor: pointer;">
+          <tr onclick="window.open('/applications/${id}', '_blank')" style="cursor: pointer;">
             <th scope="row">${i}</th>
             <td>${company}</td>
             <td>${jobTitle}</td>
             <td>${location}</td>
-            <td>${status}</td>
+            <td><span class="badge text-bg-${badgeForStatus(app.status)}">${app.status ?? "UNKNOWN"}</span></td>
           </tr>
         `;
         table.innerHTML += row
